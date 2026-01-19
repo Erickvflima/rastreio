@@ -1,10 +1,28 @@
-import { IApiResponse } from '@interface/baseResponse';
 import { Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Validation')
 @Controller('validation')
 export class ValidationController {
-  @Get('')
-  getValidation(): IApiResponse {
+  @Get()
+  @ApiOperation({
+    summary: 'Validação da API',
+    description: 'Endpoint para validar se a API Rastreio está ativa',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'API ativa',
+    schema: {
+      example: {
+        status: 'success',
+        message: 'Bem vindo a API Rastreio',
+        document: {
+          environment: 'development',
+        },
+      },
+    },
+  })
+  getValidation() {
     return {
       status: 'success',
       message: 'Bem vindo a API Rastreio',

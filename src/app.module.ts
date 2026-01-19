@@ -5,6 +5,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TelemetryModule } from '@modules/Telemetry/telemetry.module';
 
 @Module({
   imports: [
@@ -30,7 +31,6 @@ import { MongooseModule } from '@nestjs/mongoose';
         retryDelay: 120_000,
       }),
     }),
-
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
@@ -41,6 +41,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
+    TelemetryModule,
   ],
 })
 export class AppModule {}
