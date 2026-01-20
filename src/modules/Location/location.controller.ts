@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { LocationService } from './location.service';
 import { DeviceIdParamDto } from './dto/location.dto';
+import { CurrentUser } from '@common/decorators/current-user.decorator';
 
 @ApiTags('Location')
 @ApiBearerAuth()
@@ -21,7 +22,10 @@ export class LocationController {
     type: String,
     example: 'ABC123456',
   })
-  async findByDeviceId(@Param() { deviceId }: DeviceIdParamDto) {
-    return this.locationService.findByDeviceId(deviceId);
+  async findByDeviceId(
+    @CurrentUser() user: { id: number },
+    @Param() { deviceId }: DeviceIdParamDto,
+  ) {
+    return this.locationService.findByDeviceId(user.id, deviceId);
   }
 }

@@ -11,6 +11,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { LocationModule } from '@modules/Location/location.module';
 import { TcpModule } from '@tcp/tcp.module';
+import { DeviceModule } from '@modules/Device/device.module';
+import { DevicesByUserModule } from '@modules/DevicesByUser/devicesByUser.module';
 
 @Module({
   imports: [
@@ -53,6 +55,8 @@ import { TcpModule } from '@tcp/tcp.module';
     UserModule,
     LocationModule,
     TcpModule,
+    DeviceModule,
+    DevicesByUserModule,
   ],
   providers: [
     {
