@@ -6,21 +6,22 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { LocationService } from './location.service';
+import { DeviceIdParamDto } from './dto/location.dto';
 
 @ApiTags('Location')
 @ApiBearerAuth()
-@Controller('api/v1/location')
+@Controller('location')
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 
-  @Get(':device_id')
+  @Get(':deviceId')
   @ApiOperation({ summary: 'Buscar localização por device_id' })
   @ApiParam({
-    name: 'device_id',
+    name: 'deviceId',
     type: String,
     example: 'ABC123456',
   })
-  findByDeviceId(@Param('device_id') deviceId: string) {
+  async findByDeviceId(@Param() { deviceId }: DeviceIdParamDto) {
     return this.locationService.findByDeviceId(deviceId);
   }
 }

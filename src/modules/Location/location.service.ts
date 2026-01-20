@@ -7,10 +7,9 @@ import { TelemetryService } from '@modules/Telemetry/telemetry.service';
 export class LocationService {
   constructor(private readonly telemetryService: TelemetryService) {}
 
-  async findByDeviceId(deviceId: string): Promise<IApiResponse> {
+  async findByDeviceId(deviceId: number): Promise<IApiResponse> {
     try {
       const result = await this.telemetryService.findLastByDeviceId(deviceId);
-
       if (!result.data) {
         throw new NotFoundException('Localização não encontrada');
       }

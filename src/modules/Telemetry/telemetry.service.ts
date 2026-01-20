@@ -32,11 +32,11 @@ export class TelemetryService {
   }
 
   async findLastByDeviceId(
-    deviceId: string,
+    deviceId: number,
   ): Promise<IApiResponse<Telemetry | null>> {
     try {
       const telemetry = await this.model
-        .findOne({ device_id: deviceId })
+        .findOne({ deviceId: deviceId })
         .sort({ createdAt: -1 })
         .lean();
 
