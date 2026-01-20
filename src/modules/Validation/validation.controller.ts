@@ -1,9 +1,11 @@
+import { Public } from '@common/decorators/public.decorator';
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Validation')
 @Controller('validation')
 export class ValidationController {
+  @Public()
   @Get()
   @ApiOperation({
     summary: 'Validação da API',
