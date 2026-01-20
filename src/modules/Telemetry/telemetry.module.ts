@@ -12,5 +12,6 @@ import { TelemetryService } from './telemetry.service';
   ],
   controllers: [TelemetryController],
   providers: [TelemetryService],
+  exports: [TelemetryService],
 })
 export class TelemetryModule {}

@@ -30,4 +30,25 @@ export class TelemetryService {
       throw handleError(error, 'Erro ao inserir telemetria');
     }
   }
+
+  async findLastByDeviceId(
+    deviceId: string,
+  ): Promise<IApiResponse<Telemetry | null>> {
+    try {
+      const telemetry = await this.model
+        .findOne({ device_id: deviceId })
+        .sort({ createdAt: -1 })
+        .lean();
+
+      return {
+        status: 'success',
+        message: telemetry
+          ? 'Telemetria encontrada'
+          : 'Nenhuma telemetria encontrada',
+        data: telemetry,
+      };
+    } catch (error) {
+      throw handleError(error, 'Erro ao buscar telemetria');
+    }
+  }
 }

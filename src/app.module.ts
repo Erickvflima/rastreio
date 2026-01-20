@@ -9,6 +9,7 @@ import { AuthModule } from '@modules/Auth/auth.module';
 import { UserModule } from '@modules/User/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import { LocationModule } from '@modules/Location/location.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
     TelemetryModule,
     AuthModule,
     UserModule,
+    LocationModule,
   ],
   providers: [
     {
