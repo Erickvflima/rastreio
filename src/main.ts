@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'verbose', 'warn', 'fatal'],
+    logger: ['verbose', 'warn', 'error', 'fatal'],
   });
 
   const configService = app.get(ConfigService);
@@ -38,7 +38,7 @@ async function bootstrap() {
 
   const port = configService.get<number>('PORT') || 3000;
   await app.listen(port);
-  Logger.verbose(`Aplicação rodando na porta: ${port}.`);
+  Logger.verbose(`HTTP server running on port: ${port}.`);
 }
 
 void bootstrap();

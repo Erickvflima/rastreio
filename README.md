@@ -84,7 +84,9 @@ O projeto segue princípios de **Clean Architecture** e **Clean Code**:
 
 1. Instale as dependências:
 
+```powershell
 yarn install
+```
 
 2. Configure variáveis de ambiente no .env:
 - **POSTGRES_HOST=localhost**
@@ -96,23 +98,84 @@ yarn install
 - **MONGO_DB_NAME=telemetry**
 - **JWT_SECRET=seu_segredo**
 
-3. Rode a aplicação: yarn start:dev
+3. Rode a aplicação: 
 
+```powershell
+yarn start:dev
+```
 
 4. Acesse a documentação Swagger em: http://localhost:3000/api/docs
 
 ## Testes
 
 ### Executar todos os testes:
-
+```powershell
 yarn test
+```
 
 
 ### Executar testes com cobertura:
-
+```powershell
 yarn test:cov
+```
+
+## Conexão TCP para Dispositivos (GPRS)
+
+Além da API HTTP, a aplicação disponibiliza um servidor TCP para ingestão direta de dados de telemetria enviados por dispositivos de rastreamento via GPRS/TCP.
+
+### Configuração do Servidor TCP
+
+Host: 0.0.0.0
+Porta: 3001
+Protocolo: TCP Raw (socket)
+
+Esse servidor é responsável por:
+- **Receber o payload em formato HEX**
+- **Normalizar e validar o pacote**
+- **Processar os dados de telemetria**
+- **Persistir as informações no MongoDB**
+
+## Validação do Payload TCP
+
+O payload recebido segue um protocolo específico (SFT9001), contendo:
+
+- **Header: 50F7**
+- **Footer: 73C4**
+- Conteúdo em formato HEX
+
+Antes do processamento, o payload é:
+
+- Normalizado (trim + toUpperCase)
+- Validado quanto a header, footer e tamanho mínimo
+- Rejeitado em caso de inconsistência, com logs apropriados
+
+## Testando Conexão TCP no Windows (PowerShell)
+
+É possível simular o envio de dados por um dispositivo real utilizando PowerShell.
+
+Script de Teste
+```powershell
+$client = New-Object System.Net.Sockets.TcpClient
+$client.Connect("127.0.0.1", 3001)
+$stream = $client.GetStream()
+$writer = New-Object System.IO.StreamWriter($stream)
+$writer.AutoFlush = $true
+$payload = "50F70A3F73025EFCF950156F017D784000008CA0F80084003C013026A1029E72BD73C4"
+$writer.WriteLine($payload)
+$writer.Close()
+$stream.Close()
+$client.Close()
+```
+
+Resultado Esperado
+
+- Conexão TCP estabelecida com sucesso
+- Payload recebido e validado
+- Telemetria processada e armazenada
+- Conexão encerrada corretamente
+
 
 ## Considerações Finais
 
 Este projeto foi desenvolvido pensando em escalabilidade, manutenibilidade e boas práticas modernas.
-O uso de bancos distintos, tratamento de erros, autenticação robusta, padronização de respostas e documentação completa garantem que a aplicação esteja pronta para evoluir e se integrar a outros sistemas no futuro.
+A utilização de bancos distintos, ingestão via TCP para dispositivos, tratamento padronizado de erros, autenticação robusta e documentação completa tornam a aplicação preparada para evoluir, escalar e se integrar a outros sistemas no futuro.

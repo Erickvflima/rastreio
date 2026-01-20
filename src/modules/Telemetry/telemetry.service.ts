@@ -27,6 +27,7 @@ export class TelemetryService {
         data: saved,
       };
     } catch (error) {
+      console.log(error);
       throw handleError(error, 'Erro ao inserir telemetria');
     }
   }

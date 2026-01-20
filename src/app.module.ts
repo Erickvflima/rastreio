@@ -10,6 +10,7 @@ import { UserModule } from '@modules/User/user.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { LocationModule } from '@modules/Location/location.module';
+import { TcpModule } from '@tcp/tcp.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { LocationModule } from '@modules/Location/location.module';
     AuthModule,
     UserModule,
     LocationModule,
+    TcpModule,
   ],
   providers: [
     {
